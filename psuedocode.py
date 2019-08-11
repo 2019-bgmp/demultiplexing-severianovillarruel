@@ -44,22 +44,29 @@
 #def id_weird_reads(index1_seq, read1_seq, index2_seq_rev_comp, read2_seq, index_ref_dict):
 #   ```identify index_seq that are low quality or unknown and write them out to a file```
 #   iterate over each quality score in the index_seq
-#   if there is a quality score lower than 20 label write the forward seq out to a file called 'low_qualORunknown' with index1 and index2 added to the header and the reverse seq out to a file with index1 and index2 added to the header
-#   if the average quality score of seq is below 30 write the forward seq out to the 'low_qualORunknown' file with index1 and index2 added to the header and the reverse seq out to a file with index1 and index2 added to the header
-#   if the index is not found in the dictionary write the forward seq out to the 'low_qualORunknown' file with index1 and index2 added to the header and the reverse seq out to a file with index1 and index2 added to the header
+#   if there is a quality score lower than 33
+#   1) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the forward seq out to a file called 'low_qual_and_unknown_forward'
+#   2) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the reverse seq out to a file called 'low_qual_and_unknown_rev'
+#   if the average quality score of seq is below 35
+#   1) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the forward seq out to the 'low_qual_and_unknown_forward'
+#   2) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the forward seq out to the 'low_qual_and_unknown_rev'
+#   if the index is not found in the dictionary
+#   1) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the forward seq out to the 'low_qual_and_unknown_forward'
+#   2) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the forward seq out to the 'low_qual_and_unknown_rev'
 #   return each of the output files
 
 #OUTPUT MISMATCHED READS
-#def id_mismatch_reads(index1_seq, read1_seq, index2_seq, read2_seq, index_ref_dict)
+#def hopped_read)sort(index1_seq, read1_seq, index2_seq, read2_seq, index_ref_dict)
 #   ```identify hopped indexes and write them out to a file
-#   if index1 is a key in index_ref_dict and index2_rev_comp is a key in index_ref_dict but the indexes do not equal eachother then  write the forward seq out to a file called 'index_hopped' with index1 and index2 added to the header and the reverse seq out to a file with index1 and index2 added to the header
+#   if index1_seq is a key in index_ref_dict and index2_rev_comp is a key in index_ref_dict but the index_seqs do not equal eachother
+#   1) add index1_seq and index1_ref and index2_seq and index2_ref to the header and write the forward seq out to a file called 'hopped_forward'
+#   2) add index1_seq and index1_ref and index2_seq and index2_ref to the header write the reverse seq out to a file called 'hopped_rev'
 #   return each of the output files
 
 #OUTPUT MATCHED READS
-#def correct_index_pair(index1_seq, read1_seq, index2_seq_rev_comp, read2_seq, index_ref_dict)
+#def dual_matched_sort(index1_seq, read1_seq, index2_seq_rev_comp, read2_seq, index_ref_dict)
 #   ```identify correctly paired reads and write them out to a file
-#   if index1 and index2 are keys in index_ref_dict and index1 equals index2 write the forward seq out to a file called 'correctly_multiplexed' with index1 and index2 added to the header and the reverse seq out to a file with index1 and index2 added to the header
-
-#DEMULITPLEX THE READS
-#def
-#   ```using the correctly multipleded file write out each read based on the key in the dictionary, name the file it is written out by the seq identifier
+#   if index1_seq and index2_seq are keys in index_ref_dict and if index1_seq equals index2_seq
+#   1) add the index_seq and index_ref to the header and write the forward read out to a file named 'forward' + the index_ref
+#   2)  add the index_seq and index_ref to the header and write the reverse read out to a file named 'reverse' + the index_ref
+#   return each of the output files
