@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#SBATCH --partition=bgmp                          ### Partition (like a queue in PBS)
+#SBATCH --job-name=demulti                ### Job Name
+#SBATCH --output=Hi.stout                    ### File in which to store job output
+#SBATCH --error=Hi.err                       ### File in which to store job error messages
+#SBATCH --time=0-12:00:00                        ### Wall clock time limit in Days-HH:MM:SS
+#SBATCH --nodes=1                                     ### Number of nodes needed for the job
+#SBATCH --ntasks-per-node=1                             ### Number of tasks to be launched per Node
+#SBATCH --account=bgmp                            ### Account used for job submission
+
+
+conda deactivate
+conda deactivate
+conda deactivate
+conda activate bgmp_py3
+
+var1="/home/svillarr/shared_files1/2017_sequencing/1294_S1_L008_R1_001.fastq.gz"
+var2="/home/svillarr/shared_files1/2017_sequencing/1294_S1_L008_R2_001.fastq.gz"
+var3="/home/svillarr/shared_files1/2017_sequencing/1294_S1_L008_R3_001.fastq.gz"
+var4="/home/svillarr/shared_files1/2017_sequencing/1294_S1_L008_R4_001.fastq.gz"
+echo R1
+/usr/bin/time -v ./demulti_pt1.py -i $var1 -p R1.png
+echo R2
+/usr/bin/time -v ./demulti_pt1.py -i $var2 -p R2.png
+echo R3
+/usr/bin/time -v ./demulti_pt1.py -i $var3 -p R3.png
+echo R4
+/usr/bin/time -v ./demulti_pt1.py -i $var4 -p R4.png
+
+conda deactivate
