@@ -18,6 +18,7 @@ QSCORE_CUTOFF = 30
 R1_FP_DICT = {}
 R2_FP_DICT = {}
 
+#MAKE FILE POINTERS AND SAVE THEM TO A DICTIONARY. FPs ARE VALUES INDEX STRING IS KEY.
 for index in INDEX_REF_LST:
     R1_FP = open("demulti_files/R1_{0}.fastq".format(index),"w")
     R2_FP = open("demulti_files/R2_{0}.fastq".format(index),"w")
@@ -44,13 +45,11 @@ def poor_quality_reads(index_1, index_2_rc, read1, read2):
         if ord(letter_index_1) - 33 < QSCORE_CUTOFF:
             R1_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
             R2_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-            # print("problem!",index_1[3], index_2_rc[3],letter_index_1,"\n")
             return True
             break
-        elif ord(letter_index_2) - 33 < QSCORE_CUTOFF:
+        if ord(letter_index_2) - 33 < QSCORE_CUTOFF:
             R1_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
             R2_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-            # print("problem!",index_1[3], index_2_rc[3],letter_index_2,"\n")
             return True
             break
 
@@ -60,13 +59,12 @@ def unknown_reads(index_1, index_2_rc, read1, read2):
     if index_1[1] not in INDEX_REF_LST:
         R1_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
         R2_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-        # print("unknown read!",index_1[1], index_2_rc[1],"\n")
         return True
-    elif index_2_rc[1] not in INDEX_REF_LST:
-        R1_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-        R2_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-        # print("unknown read!",index_1[1], index_2_rc[1],"\n")
-        return True
+    if index_1[1] in INDEX_REF_LST:
+        if index_2_rc[1] not in INDEX_REF_LST:
+            R1_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
+            R2_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
+            return True
 
 #OUTPUT MISMATCHED READS
 def hopped_reads(index_1, index_2_rc, read1, read2):
@@ -76,7 +74,6 @@ def hopped_reads(index_1, index_2_rc, read1, read2):
            if index_1[1] != index_2_rc[1]:
               R1_hopped.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
               R2_hopped.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-              # print("hopped read!",index_1[1], index_2_rc[1],"\n")
               return True
 
 #OUTPUT MATCHED READS
@@ -87,7 +84,6 @@ def dual_matched_reads(index_1, index_2_rc, read1, read2):
             if index_1[1] == index_2_rc[1]:
                 R1_FP_DICT[index_1[1]].write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
                 R2_FP_DICT[index_1[1]].write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-                # print("matched read :) !",index_1[1], index_2_rc[1],"\n")
                 return True
 
 counter_dict = {}

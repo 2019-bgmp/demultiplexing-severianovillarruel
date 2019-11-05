@@ -17,16 +17,16 @@ def get_args():
     return parser.parse_args()
 
 #OPEN REFERENCE INDEXES FILE, INDEX 1 FILE, INDEX 2 FILE, FORWARD SEQS FILE, REVERSE SEQS FILE
-# INDEX_1 = gzip.open("args.index1_file", "r")
-# INDEX_2 = gzip.open("args.index2_file", "r")
-# FORWARD_READ = gzip.open("read1_file", "r")
-# REVERSE_READ = gzip.open("read2_file", "r")
-
 args = get_args()
-INDEX_1_READS = open(args.index1_file, "r")
-INDEX_2_READS = open(args.index2_file, "r")
-FORWARD_READS = open(args.read1_file, "r")
-REVERSE_READS = open(args.read2_file, "r")
+INDEX_1_READS = gzip.open(args.index1_file, "rt")
+INDEX_2_READS = gzip.open(args.index2_file, "rt")
+FORWARD_READS = gzip.open(args.read1_file, "rt")
+REVERSE_READS = gzip.open(args.read2_file, "rt")
+
+# INDEX_1_READS = open("test_files/test_index_1.fq", "r")
+# INDEX_2_READS = open("test_files/test_index_2.fq", "r")
+# FORWARD_READS = open("test_files/test_forward_read.fq", "r")
+# REVERSE_READS = open("test_files/test_reverse_read.fq", "r")
 
 INDEX_1_READ = []
 INDEX_2_READ = []
@@ -70,16 +70,22 @@ while(True):
 
         #REVERSE COMPLIMENT I2
         INDEX_2_READ[1] = rev_comper(INDEX_2_READ[1])
-
-        # print(INDEX_2_READ[1])
+        # print(INDEX_1_READ[1], INDEX_2_READ[1])
+        # print(INDEX_1_READ[3], INDEX_2_READ[3])
 
         #RUN READS THROUGH EACH FUNCTION IFF IT DOES NOT SATISFY THE PREVIOUS CONDITION
+        #0. Set Conditions to None
+        poor_quality_condition = None
+        unknown_condition = None
+        hopped_condition = None
         #1a. POOR QUALITY CONDITION (execute function and save whether the condition was met)
         poor_quality_condition = poor_quality_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
+        if poor_quality_condition == True:
+            poor_quality_counter += 1
         #1b. UNKNOWN READ CONDITION (if the previous condition was not met execute the function and save whether this condition was met)
         if (poor_quality_condition != True):
             unknown_condition = unknown_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
-        if poor_quality_condition == True or unknown_condition == True:
+        if unknown_condition == True:
             poor_quality_counter += 1 #add 1 to counter if either condition was met
 
         #2. HOPPED CONDITION (if the previous conditions were not met execute the function and save whether this condition was met)
@@ -96,11 +102,11 @@ while(True):
 
     #EXIT OUT OF WHILE LOOP WHEN END OF FILE IS REACHED
     if "@" not in INDEX_1_READ[0]:
-        print("Number of Reads with an Index of Poor Quality: ", poor_quality_counter)
+        print("Number of Reads with an Unknown Read: ", poor_quality_counter)
         print("Number of Reads an Index that Hopped: ", hopped_counter)
         print("Number of Reads with a Dual Matched Index: ", matched_counter)
         for key in index_percentage_dict:
-            print("Percent of matched reads with index: ",key," is ", ((index_percentage_dict[key]/matched_counter)*100))
+            print("Percent of matched reads with index: ", key ," is ", ((index_percentage_dict[key]/matched_counter)*100))
         break
 
     #BLANK LISTS

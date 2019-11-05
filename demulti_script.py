@@ -23,11 +23,6 @@ INDEX_2_READS = gzip.open(args.index2_file, "rt")
 FORWARD_READS = gzip.open(args.read1_file, "rt")
 REVERSE_READS = gzip.open(args.read2_file, "rt")
 
-# INDEX_1_READS = open("test_files/test_index_1.fq", "r")
-# INDEX_2_READS = open("test_files/test_index_2.fq", "r")
-# FORWARD_READS = open("test_files/test_forward_read.fq", "r")
-# REVERSE_READS = open("test_files/test_reverse_read.fq", "r")
-
 INDEX_1_READ = []
 INDEX_2_READ = []
 FORWARD_READ = []
@@ -37,11 +32,12 @@ poor_quality_counter = 0
 hopped_counter = 0
 matched_counter = 0
 
+#MAKE A LIST WITH THE FOUR LINES OF A READ AS THE ITEMS
 while(True):
-    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #HEADER
-    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #SEQ
-    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #QHEADER
-    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #QSCORE
+    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #HEADER [0]
+    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #SEQ [1]
+    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #QHEADER [2]
+    INDEX_1_READ.append(INDEX_1_READS.readline().strip()) #QSCORE [3]
 
     #grab current R2 record
     INDEX_2_READ.append(INDEX_2_READS.readline().strip())
@@ -70,35 +66,31 @@ while(True):
 
         #REVERSE COMPLIMENT I2
         INDEX_2_READ[1] = rev_comper(INDEX_2_READ[1])
-        # print(INDEX_1_READ[1], INDEX_2_READ[1])
-        # print(INDEX_1_READ[3], INDEX_2_READ[3])
-
-        #RUN READS THROUGH EACH FUNCTION IFF IT DOES NOT SATISFY THE PREVIOUS CONDITION
-        #0. Set Conditions to None
+        
+        #DEMULTIPLEX
+        #Step 0. Set Conditions to None
         poor_quality_condition = None
         unknown_condition = None
         hopped_condition = None
-        #1a. POOR QUALITY CONDITION (execute function and save whether the condition was met)
+
+        #Step 1. Execute functions and save, to a variable, whether the condition was met (only proceed if previous condition was not met)
         poor_quality_condition = poor_quality_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
+        if poor_quality_condition != True:
+            unknown_condition = unknown_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
+            if unknown_condition != True:
+                hopped_condition = hopped_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
+                if hopped_condition != True:
+                    dual_matched_condition = dual_matched_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
+                    index_percentage_dict = index_percentage(INDEX_1_READ[1])
+                    matched_counter += 1
+
+        #COUNTER FOR WONKY READS
         if poor_quality_condition == True:
             poor_quality_counter += 1
-        #1b. UNKNOWN READ CONDITION (if the previous condition was not met execute the function and save whether this condition was met)
-        if (poor_quality_condition != True):
-            unknown_condition = unknown_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
         if unknown_condition == True:
-            poor_quality_counter += 1 #add 1 to counter if either condition was met
-
-        #2. HOPPED CONDITION (if the previous conditions were not met execute the function and save whether this condition was met)
-        if (poor_quality_condition != True) and (unknown_condition != True):
-            hopped_condition = hopped_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
+            poor_quality_counter += 1
         if hopped_condition == True:
-            hopped_counter += 1 #add 1 to counter if either condition was met
-
-        #THE REST ARE MATCHED (if the previous conditions were not the read is matched)
-        if (poor_quality_condition != True) and (unknown_condition != True) and (hopped_condition != True):
-            index_percentage_dict = index_percentage(INDEX_1_READ[1]) #run matched reads through a function that continuously updates a dictionary with the num of reads with each index
-            dual_matched_condition = dual_matched_reads(INDEX_1_READ,INDEX_2_READ,FORWARD_READ,REVERSE_READ)
-            matched_counter += 1 #add 1 to counter if read got to these lines of code
+            hopped_counter += 1
 
     #EXIT OUT OF WHILE LOOP WHEN END OF FILE IS REACHED
     if "@" not in INDEX_1_READ[0]:
