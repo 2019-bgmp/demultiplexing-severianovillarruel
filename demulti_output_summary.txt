@@ -1,0 +1,27 @@
+Number of Reads with an Unknown Read:  136200158
+Number of Reads an Index that Hopped:  330975
+Number of Reads with a Dual Matched Index:  226715602
+Percent of matched reads with index:  CTCTGGAT  is  10.813125247551335
+Percent of matched reads with index:  TACCGGAT  is  21.91595001035703
+Percent of matched reads with index:  AGAGTCCA  is  3.353392061654407
+Percent of matched reads with index:  ATCATGCG  is  3.055752201826851
+Percent of matched reads with index:  AACAGCGA  is  2.808868884109705
+Percent of matched reads with index:  TCGACAAG  is  1.1663334930076847
+Percent of matched reads with index:  GTAGCGTA  is  2.546996743523633
+Percent of matched reads with index:  TAGCCATG  is  3.152916224971584
+Percent of matched reads with index:  TCTTCGAC  is  13.27198513669121
+Percent of matched reads with index:  CTAGCTCA  is  5.749190124109765
+Percent of matched reads with index:  ACGATCAG  is  2.617167917715694
+Percent of matched reads with index:  GATCTTGC  is  1.1628366008970128
+Percent of matched reads with index:  AGGATAGC  is  2.5854899037782144
+Percent of matched reads with index:  TGTTCCGT  is  5.050624614710019
+Percent of matched reads with index:  CGATCGAT  is  1.869237918614882
+Percent of matched reads with index:  GTCCTAAG  is  2.734762383049403
+Percent of matched reads with index:  GATCAAGG  is  2.041410453966022
+Percent of matched reads with index:  TCGGATTC  is  1.2678086442414316
+Percent of matched reads with index:  TCGAGAGT  is  3.2852048709025325
+Percent of matched reads with index:  CGGTAATC  is  1.0555166820852497
+Percent of matched reads with index:  TATGGCAC  is  3.3749207961435315
+Percent of matched reads with index:  GCTACTCT  is  1.897230698750058
+Percent of matched reads with index:  ATCGTGGT  is  2.086318258767211
+Percent of matched reads with index:  CACTTCAC  is  1.136960128575536

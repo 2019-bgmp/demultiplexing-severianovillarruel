@@ -50,7 +50,7 @@ def poor_quality_reads(index_1, index_2_rc, read1, read2):
         elif ord(letter_index_2) - 33 < QSCORE_CUTOFF:
             R1_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
             R2_undefined.write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-            # print("problem!",index_1[3], index_2_rc[3],letter_index_2,"\n")
+            # print("problem!",index_1[3], index_2_rc[3],letter_index_1,"\n")
             return True
             break
 
@@ -87,7 +87,7 @@ def dual_matched_reads(index_1, index_2_rc, read1, read2):
             if index_1[1] == index_2_rc[1]:
                 R1_FP_DICT[index_1[1]].write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
                 R2_FP_DICT[index_1[1]].write('{0}\n{1}\n{2}\n{3}\n'.format(read1[0], read1[1], read1[2], read1[3]))
-                # print("matched read :) !",index_1[1], index_2_rc[1],"\n")
+                # print("matched read B) !",index_1[1], index_2_rc[1],"\n")
                 return True
 
 counter_dict = {}
