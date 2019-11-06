@@ -1,6 +1,6 @@
 # Demultiplexing
 
-"demulti_script.py" will demultiplex reads coming from a multiplexed sequencing run.
+The "demulti_script.py" script will demultiplex reads coming from a multiplexed sequencing run.
 
 To run the script four parameters need to be added:
 -i1 _index1_reads.gz file_
