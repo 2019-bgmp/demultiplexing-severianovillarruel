@@ -4,13 +4,13 @@ The "demulti_script.py" script will demultiplex reads coming from a multiplexed 
 
 To run the script four parameters need to be added:
 
--i1 :index1_reads.gz file
+i1  -The index1_reads.gz file
 
--i2 :index1_reads.gz file
+i2  -The index1_reads.gz file
 
--r1 :forward_reads.gz file
+r1  -The forward_reads.gz file
 
--r2 :reverse_reads.gz file
+r2  -Thereverse_reads.gz file
 
 
 A summary of the demultiplexing will be provided in standard output
