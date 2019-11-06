@@ -3,10 +3,15 @@
 The "demulti_script.py" script will demultiplex reads coming from a multiplexed sequencing run.
 
 To run the script four parameters need to be added:
+
 -i1 _index1_reads.gz file_
+
 -i2 _index1_reads.gz file_
+
 -r1 _forward_reads.gz file_
+
 -r2 _reverse_reads.gz file_
+
 
 A summary of the demultiplexing will be provided in standard output
 
